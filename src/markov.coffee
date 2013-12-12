@@ -14,6 +14,7 @@
 # Configuration:
 #   HUBOT_MARKOV_PLY - Order of the markov model to build. Default: 1
 #   HUBOT_MARKOV_MAX - Maximum number of tokens in a generated chain. Default: 50
+#   HUBOT_MARKOV_MIN_TRAIN - Mininum number of tokens to train on. Default: 1
 #
 # Commands:
 #   hubot markov <seed> - Generate a markov chain, optionally seeded with the provided phrase.
@@ -40,8 +41,9 @@ module.exports = (robot) ->
   # Read markov-specific configuration from the environment.
   ply = process.env.HUBOT_MARKOV_PLY or 1
   max = process.env.HUBOT_MARKOV_MAX or 50
+  min_train = process.env.HUBOT_MARKOV_MIN_TRAIN or 1
 
-  model = new MarkovModel(storage, ply)
+  model = new MarkovModel(storage, ply, min_train)
 
   # The robot hears ALL. You cannot run.
   robot.hear /.+$/, (msg) ->
